@@ -48,7 +48,7 @@ A comprehensive school management system built with **Next.js**, **Supabase**, a
    ```env
    NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-   MONGODB_URI=mongodb+srv://singhpuranpal12:singhpuran12@cluster0.u6d1ctn.mongodb.net/?retryWrites=true&w=majority
+   MONGODB_URI= your_mongodb_url
    ```
 
 4. **Start development server**
