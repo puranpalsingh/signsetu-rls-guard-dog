@@ -107,10 +107,8 @@ export default function TeacherPage() {
       console.log('Calculating average for classroom:', classroomId);
       console.log('Session token:', session.access_token ? 'Present' : 'Missing');
 
-     
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
-
-      let response = await fetch(`${baseUrl}/api/calculate-class-average`, {
+      // Call the main API route (which will handle routing internally)
+      const response = await fetch('/api/calculate-class-average', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,34 +117,21 @@ export default function TeacherPage() {
         body: JSON.stringify({ classroom_id: classroomId }),
       });
 
-
-      // If Edge Function fails with 404, try local API
-      if (response.status === 404) {
-        console.log('Edge Function not available, trying local API...');
-        response = await fetch('/api/calculate-class-average-local', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session.access_token}`,
-          },
-          body: JSON.stringify({ classroom_id: classroomId }),
-        });
-      }
-
       console.log('API response status:', response.status);
       const result = await response.json();
       console.log('API response data:', result);
       
       if (response.ok) {
-        const mongoStatus = result.mongo_saved ? 'saved to MongoDB' : 'MongoDB unavailable';
         if (result.average === 0 && result.debug_info) {
-          setCalculationResult(`⚠️ No records found for this classroom. Debug: ${JSON.stringify(result.debug_info)}`);
+          setCalculationResult(`⚠️ No records found for this classroom. Found ${result.debug_info.total_records} total records. Available classrooms: ${result.debug_info.available_classrooms.join(', ')}`);
         } else {
-          setCalculationResult(`✅ Class average calculated: ${result.average}% (${mongoStatus})`);
+          const mongoStatus = result.mongo_saved ? 'saved to MongoDB' : 'MongoDB not configured';
+          const recordCount = result.records_count || 0;
+          setCalculationResult(`✅ Class average calculated: ${result.average}% (${recordCount} students, ${mongoStatus})`);
         }
       } else {
         if (result.error?.includes('environment variables')) {
-          setCalculationResult(`❌ Configuration Error: Please check your .env.local file. Visit /api/check-env for details.`);
+          setCalculationResult(`❌ Configuration Error: Please check your environment variables.`);
         } else {
           setCalculationResult(`❌ Error: ${result.error}`);
         }
@@ -231,8 +216,15 @@ export default function TeacherPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {getTeacherClassrooms().map((classroom) => (
+              {getTeacherClassrooms().length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>No classrooms assigned to you yet.</p>
+                  <p className="text-sm">Contact your administrator to get classroom assignments.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {getTeacherClassrooms().map((classroom) => (
                   <Card 
                     key={classroom.id}
                     className={`cursor-pointer transition-all hover:shadow-md ${
@@ -270,7 +262,8 @@ export default function TeacherPage() {
                     </CardContent>
                   </Card>
                 ))}
-              </div>
+                </div>
+              )}
             </CardContent>
           </Card>
 
