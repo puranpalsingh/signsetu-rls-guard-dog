@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
@@ -79,7 +81,11 @@ export async function POST(request: NextRequest) {
     let mongoSuccess = false;
     try {
       const { MongoClient } = await import('mongodb');
-      const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://singhpuranpal12:singhpuran12@cluster0.u6d1ctn.mongodb.net/?retryWrites=true&w=majority";
+      const MONGODB_URI = process.env.MONGODB_URI;
+
+      if (!MONGODB_URI) {
+        return NextResponse.json({ error: 'MONGODB_URI is not set' }, { status: 500 });
+      }
       
       const client = new MongoClient(MONGODB_URI);
       await client.connect();
