@@ -1,36 +1,244 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐕 RLS Guard Dog
 
-## Getting Started
+A comprehensive school management system built with **Next.js**, **Supabase**, and **MongoDB Atlas** featuring Row-Level Security (RLS) policies for role-based access control.
 
-First, run the development server:
+## 🎯 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### **Role-Based Dashboard Views**
+- **Students**: View only their own academic progress and scores
+- **Teachers**: Manage their classrooms, edit student progress, and calculate class averages
+- **Head Teachers**: Oversee all school operations and monitor complete student performance
+
+### **Real-Time Functionality**
+- ✅ **Real-time score editing** with instant Supabase Cloud updates
+- ✅ **Class average calculation** with MongoDB Atlas integration
+- ✅ **Interactive teacher selection** to view students by teacher
+- ✅ **Protected routes** with authentication and authorization
+
+### **Technical Features**
+- 🔐 **Row-Level Security (RLS)** policies for data access control
+- 🚀 **Edge Functions** for serverless MongoDB operations
+- 📊 **MongoDB Atlas** for analytics and reporting data
+- 🎨 **Modern UI** with Tailwind CSS and shadcn/ui components
+- 📱 **Responsive design** for all device types
+
+## 🚀 Quick Start
+
+### **Prerequisites**
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
+- MongoDB Atlas account
+
+### **Installation**
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd signsetu-rls-guard-dog
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   Create `.env.local` file:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+   MONGODB_URI=mongodb+srv://singhpuranpal12:singhpuran12@cluster0.u6d1ctn.mongodb.net/?retryWrites=true&w=majority
+   ```
+
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open in browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 👥 Demo Credentials
+
+### **Students**
+- **Email**: `student@test.com` | **Password**: `password123`
+- **Email**: `student2@test.com` | **Password**: `password123`
+
+### **Teachers**
+- **Email**: `teacher@test.com` | **Password**: `password123`
+- **Email**: `teacher2@test.com` | **Password**: `password123`
+
+### **Head Teachers**
+- **Email**: `headteacher@test.com` | **Password**: `password123`
+
+## 🏗️ Architecture
+
+### **Database Schema**
+```
+schools (id, name)
+├── profile (id, role, school_id, full_name)
+├── classroom (id, name, school_id, teacher_id)
+└── progress (id, student_id, classroom_id, score, subject)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **RLS Policies**
+- **Students**: Can only access their own progress records
+- **Teachers**: Can access records in their assigned classrooms
+- **Head Teachers**: Can access all records within their school
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **Tech Stack**
+- **Frontend**: Next.js, TypeScript, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL, Auth, Edge Functions)
+- **Analytics**: MongoDB Atlas
+- **UI Components**: shadcn/ui
+- **Authentication**: Supabase Auth
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📱 User Interface
 
-## Learn More
+### **Dashboard Views**
 
-To learn more about Next.js, take a look at the following resources:
+#### **Student Dashboard**
+- Personal academic progress table
+- Subject-wise scores with performance badges
+- Real-time score updates
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### **Teacher Dashboard**
+- Classroom management interface
+- Student progress editing capabilities
+- Class average calculation with MongoDB integration
+- Interactive classroom selection
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### **Head Teacher Dashboard**
+- Complete school overview
+- Teaching staff management
+- All student progress monitoring
+- School-wide statistics and metrics
 
-## Deploy on Vercel
+## 🔧 API Endpoints
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **Local API Routes**
+- `POST /api/calculate-class-average-local` - Calculate class averages with MongoDB integration
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### **Supabase Edge Functions**
+- `POST /functions/v1/calculate-class-average` - Serverless class average calculation
+
+## 🚀 Deployment
+
+### **1. Deploy Supabase Edge Function**
+```bash
+# Install Supabase CLI
+npm install -g supabase
+
+# Login and link project
+supabase login
+supabase link --project-ref YOUR_PROJECT_REF
+
+# Deploy Edge Function
+supabase functions deploy calculate-class-average
+```
+
+### **2. Set Environment Variables**
+In Supabase Dashboard → Edge Functions:
+- **Key**: `MONGODB_URI`
+- **Value**: `mongodb_url`
+
+### **3. Deploy Next.js App**
+Deploy to your preferred platform:
+- **Vercel**: Connect GitHub repo
+- **Netlify**: Connect GitHub repo
+- **Railway**: Connect GitHub repo
+
+### **4. Configure RLS Policies**
+In Supabase Dashboard → Authentication → Policies:
+- Create policies for students, teachers, and head teachers
+- Ensure proper data access control
+
+## 📊 MongoDB Atlas Integration
+
+### **Data Storage**
+Class averages are stored in MongoDB Atlas:
+```json
+{
+  "classroom_id": "uuid",
+  "average_score": 85.5,
+  "last_calculated": "2024-01-15T10:30:00Z"
+}
+```
+
+### **MongoDB Compass Connection**
+```
+mongodb_url
+```
+
+## 🛠️ Development
+
+### **Project Structure**
+```
+├── app/
+│   ├── dashboard/          # Main dashboard page
+│   ├── teacher/           # Teacher portal
+│   ├── login/             # Authentication
+│   └── api/               # API routes
+├── components/
+│   ├── ui/                # shadcn/ui components
+│   └── ThemeToggle.tsx    # Theme switcher
+├── context/
+│   ├── AuthContext.tsx    # Authentication context
+│   └── ThemeContext.tsx   # Theme context
+├── lib/
+│   ├── supabaseClient.ts  # Supabase configuration
+│   ├── types.ts          # TypeScript types
+│   └── utils.ts          # Utility functions
+└── supabase/
+    ├── functions/         # Edge Functions
+    └── migrations/        # Database migrations
+```
+
+### **Available Scripts**
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+```
+
+## 🔒 Security Features
+
+- **Row-Level Security (RLS)** policies in Supabase
+- **JWT-based authentication** with Supabase Auth
+- **Role-based access control** for all data operations
+- **Protected API routes** with authentication checks
+- **Environment variable protection** for sensitive data
+
+## 📈 Performance
+
+- **Server-side rendering** with Next.js
+- **Edge Functions** for serverless operations
+- **Optimized database queries** with proper indexing
+- **Real-time updates** with Supabase subscriptions
+- **Responsive design** for optimal mobile experience
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+##  Acknowledgments
+
+- **Supabase** for backend infrastructure
+- **MongoDB Atlas** for analytics storage
+- **shadcn/ui** for beautiful UI components
+- **Next.js** for the React framework
+- **Tailwind CSS** for styling
+
+---
+
+**RLS Guard Dog** - Secure, scalable, and user-friendly school management system! 🐕🎓
