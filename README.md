@@ -34,7 +34,7 @@ A comprehensive school management system built with **Next.js**, **Supabase**, a
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/puranpalsingh/signsetu-rls-guard-dog/
    cd signsetu-rls-guard-dog
    ```
 
