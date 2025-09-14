@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { 
   BookOpen, 
@@ -108,7 +107,7 @@ export default function TeacherPage() {
       console.log('Calculating average for classroom:', classroomId);
       console.log('Session token:', session.access_token ? 'Present' : 'Missing');
 
-      // Try Edge Function first, fallback to local API
+     
       let response = await fetch('/api/calculate-class-average', {
         method: 'POST',
         headers: {
