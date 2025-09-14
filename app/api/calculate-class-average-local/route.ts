@@ -84,7 +84,13 @@ export async function POST(request: NextRequest) {
       const MONGODB_URI = process.env.MONGODB_URI;
 
       if (!MONGODB_URI) {
-        return NextResponse.json({ error: 'MONGODB_URI is not set' }, { status: 500 });
+        console.log('MONGODB_URI not set, skipping MongoDB save');
+        return NextResponse.json({ 
+          message: 'Average calculated successfully (MongoDB not configured)',
+          average: roundedAverage,
+          mongo_saved: false,
+          records_count: progressRecords.length
+        });
       }
       
       const client = new MongoClient(MONGODB_URI);
