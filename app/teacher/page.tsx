@@ -108,7 +108,9 @@ export default function TeacherPage() {
       console.log('Session token:', session.access_token ? 'Present' : 'Missing');
 
      
-      let response = await fetch('/api/calculate-class-average', {
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+
+      let response = await fetch(`${baseUrl}/api/calculate-class-average`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,6 +118,7 @@ export default function TeacherPage() {
         },
         body: JSON.stringify({ classroom_id: classroomId }),
       });
+
 
       // If Edge Function fails with 404, try local API
       if (response.status === 404) {
