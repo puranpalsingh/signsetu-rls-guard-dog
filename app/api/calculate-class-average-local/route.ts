@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     // Try to save to MongoDB Atlas
     let mongoSuccess = false;
     try {
-      const { MongoClient } = require('mongodb');
+      const { MongoClient } = await import('mongodb');
       const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://singhpuranpal12:singhpuran12@cluster0.u6d1ctn.mongodb.net/?retryWrites=true&w=majority";
       
       const client = new MongoClient(MONGODB_URI);

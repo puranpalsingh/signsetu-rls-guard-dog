@@ -19,7 +19,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
-import { Classroom, ProgressRecord, Teacher } from '@/lib/types';
+import { Classroom, ProgressRecord } from '@/lib/types';
 
 export default function TeacherPage() {
   const { user, logout } = useAuth();
@@ -279,7 +279,7 @@ export default function TeacherPage() {
                   Student Progress - {classrooms.find(c => c.id === selectedClassroom)?.name}
                 </CardTitle>
                 <CardDescription>
-                  Click on scores to edit them. Use "Calculate Average" to save class statistics to MongoDB.
+                  Click on scores to edit them. Use &quot;Calculate Average&quot; to save class statistics to MongoDB.
                 </CardDescription>
               </CardHeader>
               <CardContent>
