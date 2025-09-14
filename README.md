@@ -34,7 +34,7 @@ A comprehensive school management system built with **Next.js**, **Supabase**, a
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/puranpalsingh/signsetu-rls-guard-dog/
    cd signsetu-rls-guard-dog
    ```
 
@@ -48,7 +48,7 @@ A comprehensive school management system built with **Next.js**, **Supabase**, a
    ```env
    NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-   MONGODB_URI=mongodb+srv://singhpuranpal12:singhpuran12@cluster0.u6d1ctn.mongodb.net/?retryWrites=true&w=majority
+   MONGODB_URI= your_mongodb_url
    ```
 
 4. **Start development server**
@@ -227,9 +227,6 @@ npm run lint         # Run ESLint
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ##  Acknowledgments
 
